@@ -7,7 +7,7 @@ projects:
     path: ""
     libs:
      - src: muqsit/InvMenu/InvMenu
-     - src: jojoe77777/FormAPI/SimpleForm
-     - src: jojoe77777/FormAPI/CustomForm
+     - src: jojoe77777/FormAPI/Form
+     
 
 ...

@@ -49,7 +49,7 @@ class HomeCommand extends Command {
                 }
                 DataManager::getInstance()->removeHome($sender, $args[1]);
                 $sender->sendMessage(HomeSystem::PREFIX . "§aYour home was deleted succesfully");
-                return;
+                
             break;
 
             case "changeicon":

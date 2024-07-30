@@ -5,5 +5,7 @@ branches:
 projects:
   HomeSystem:
     path: ""
-    
+    libs:
+     - src: muqsit/InvMenu/InvMenu
+
 ...

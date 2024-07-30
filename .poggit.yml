@@ -5,4 +5,9 @@ branches:
 projects:
   HomeSystem:
     path: ""
+    libs:
+      - src: muqsit/InvMenu/InvMenu
+        version: ^4.4.1
+        branch: "4.0"
+      - src: jojoe77777/FormAPI/SimpleForm
 ...

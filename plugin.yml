@@ -3,6 +3,9 @@ main: zephy\homes\HomeSystem
 author: Zephyrhz0
 api: 5.0.0
 version: 1.0.0
+virions:
+  - InvMenu
+  - FormAPI
 
 permissions:
    home.default:

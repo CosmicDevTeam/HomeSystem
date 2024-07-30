@@ -8,7 +8,6 @@ projects:
     libs:
      - src: muqsit/InvMenu/InvMenu
      
-     - src: jojoe77777/FormAPI
      
 
 ...

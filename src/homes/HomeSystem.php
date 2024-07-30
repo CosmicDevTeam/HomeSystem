@@ -9,7 +9,7 @@ use zephy\homes\commands\HomeCommand;
 
 class HomeSystem extends PluginBase {
     use SingletonTrait;
-    const PREFIX = "§6(§gHomeSystem§6) §f";
+    const PREFIX = "§6(§gHomeSystem§6) §r";
 
     protected function onEnable(): void
     {

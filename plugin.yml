@@ -3,7 +3,7 @@ main: zephy\homes\HomeSystem
 author: Zephyrhz0
 api: 5.0.0
 version: 1.0.0
-depends:
+softdepends:
   - InvMenu
   - FormAPI
 

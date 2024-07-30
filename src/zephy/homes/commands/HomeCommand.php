@@ -29,7 +29,7 @@ class HomeCommand extends Command {
         switch($args[0]){
 
             case "create":
-                 if(count(DataManager::getInstance()->getAllHomes()) >= 26){
+                 if(count(DataManager::getInstance()->getAllHomes($sender)) >= 26){
                 $sender->sendMessage(HomeSystem::PREFIX . "§4You have the maximum number of houses remove some");
                 return;
                 }

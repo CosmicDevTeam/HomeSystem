@@ -4,7 +4,7 @@ namespace zephy\homes\form;
 
 use jojoe77777\FormAPI\CustomForm;
 use pocketmine\player\Player;
-use zephy\homes\data\DataManager;
+use zephy\homes\data\HomeFactory;
 use zephy\homes\HomeSystem;
 
 class HomeCreator extends CustomForm {
@@ -17,12 +17,13 @@ class HomeCreator extends CustomForm {
             return;
         }
 
-        if(DataManager::getInstance()->exists($player, $data[0])){
+        if(HomeFactory::getInstance()->getHome($player, $data[0]) === null){
             $player->sendMessage(HomeSystem::PREFIX . "This home already exists");
             return;
         }
 
-        DataManager::getInstance()->createHome($player, $data[0]);
+        HomeFactory::getInstance()->addHome($player, $data[0]);
+        HomeFactory::getInstance()->getHome($player, $data[0])->setPosition($player->getPosition());
         $player->sendMessage(HomeSystem::PREFIX . "§aYou created your home succesfully");
 
     });

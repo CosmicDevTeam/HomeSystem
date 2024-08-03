@@ -10,6 +10,7 @@ use zephy\homes\data\DataManager;
 use zephy\homes\form\HomeCreator;
 use zephy\homes\form\ItemsSelector;
 use pocketmine\command\CommandSender;
+use zephy\homes\data\HomeFactory;
 
 class HomeCommand extends Command {
     public function __construct()
@@ -29,7 +30,7 @@ class HomeCommand extends Command {
         switch($args[0]){
 
             case "create":
-                 if(count(DataManager::getInstance()->getAllHomes($sender)) >= 26){
+                 if(count(HomeFactory::getInstance()->getHomes($sender)) >= 26){
                 $sender->sendMessage(HomeSystem::PREFIX . "§4You have the maximum number of houses remove some");
                 return;
                 }
@@ -43,11 +44,11 @@ class HomeCommand extends Command {
                     $sender->sendMessage(HomeSystem::PREFIX . "§4You must place the name of the home");
                     return;
                 }
-                if(!DataManager::getInstance()->exists($sender, $args[1])){
+                if(HomeFactory::getInstance()->getHome($sender, $args[1]) === null){
                     $sender->sendMessage(HomeSystem::PREFIX . "§4This home dont exist");
                     return;
                 }
-                DataManager::getInstance()->removeHome($sender, $args[1]);
+                HomeFactory::getInstance()->deleteHome($sender, $args[1]);
                 $sender->sendMessage(HomeSystem::PREFIX . "§aYour home was deleted succesfully");
                 
             break;
@@ -57,7 +58,7 @@ class HomeCommand extends Command {
                     $sender->sendMessage(HomeSystem::PREFIX . "§4You must place the name of the home");
                     return;
                 }
-                if(!DataManager::getInstance()->exists($sender, $args[1])){
+                if(HomeFactory::getInstance()->getHome($sender, $args[1]) === null){
                     $sender->sendMessage(HomeSystem::PREFIX . "§4This home dont exist");
                     return;
                 }

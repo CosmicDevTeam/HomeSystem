@@ -4,16 +4,13 @@ namespace zephy\homes\form;
 
 use muqsit\invmenu\InvMenu;
 use zephy\homes\HomeSystem;
-use pocketmine\utils\Config;
 use pocketmine\player\Player;
 use pocketmine\item\VanillaItems;
-use zephy\homes\data\DataManager;
+use zephy\homes\data\HomeFactory;
 use pocketmine\utils\SingletonTrait;
 use muqsit\invmenu\type\InvMenuTypeIds;
-use pocketmine\item\StringToItemParser;
 use muqsit\invmenu\transaction\InvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransactionResult;
-use pocketmine\block\VanillaBlocks;
 
 class ItemsSelector {
    use SingletonTrait;
@@ -36,12 +33,12 @@ class ItemsSelector {
     $player = $trans->getPlayer();
     $item = $trans->getItemClicked();
     $vanilla = $item->getVanillaName();
-    if(!DataManager::getInstance()->exists($player, $name)){
+    if(HomeFactory::getInstance()->getHome($player, $name) === null){
         $player->sendMessage(HomeSystem::PREFIX . "§4This home dont exist");
         return $trans->discard();
     }
    
-    DataManager::getInstance()->setItem($player, $name, $vanilla);
+    HomeFactory::getInstance()->getHome($player, $name)->setDecorativeItem($vanilla);
     $player->sendMessage(HomeSystem::PREFIX . "§aYou home icon is now setted to " . $vanilla);
 
     return $trans->discard();

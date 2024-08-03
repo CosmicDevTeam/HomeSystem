@@ -6,6 +6,7 @@ use muqsit\invmenu\InvMenuHandler;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\SingletonTrait;
 use zephy\homes\commands\HomeCommand;
+use zephy\homes\data\HomeFactory;
 
 class HomeSystem extends PluginBase {
     use SingletonTrait;
@@ -18,6 +19,12 @@ class HomeSystem extends PluginBase {
         if(!InvMenuHandler::isRegistered()){
             InvMenuHandler::register($this);
         }
+        HomeFactory::getInstance()->load();
+    }
+
+    protected function onDisable(): void
+    {
+        HomeFactory::getInstance()->save();
     }
 
 }

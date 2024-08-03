@@ -12,6 +12,7 @@ use muqsit\invmenu\type\InvMenuTypeIds;
 use pocketmine\item\StringToItemParser;
 use muqsit\invmenu\transaction\InvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransactionResult;
+use zephy\homes\data\HomeFactory;
 
 class Menu {
     use SingletonTrait;
@@ -21,14 +22,13 @@ class Menu {
     }
 
     public function sendInventory(Player $player){
-        $config = new Config(HomeSystem::getInstance()->getDataFolder() . $player->getName() . ".yml", Config::YAML);
         $menu = InvMenu::create(InvMenuTypeIds::TYPE_CHEST);
         $menu->setName("§gMy Homes");
-        foreach(DataManager::getInstance()->getAllHomes($player) as $home){
-            $itemname = $config->get($home)["item"];
+        foreach(HomeFactory::getInstance()->getHomes($player) as $home){
+            $itemname = HomeFactory::getInstance()->getHome($player, $home)->getDecorativeItem();
             $item = StringToItemParser::getInstance()->parse($itemname);
             $item->setCustomName($home);
-            $item->setLore(["§aWorld : " . $config->get($home)["world"]]);
+            $item->setLore(["§aWorld : " . HomeFactory::getInstance()->getHome($player, $home)->getPosition()->getWorld()->getFolderName()]);
             $item->setNamedTag($item->getNamedTag()->setString("home", $home));
             $menu->getInventory()->addItem($item);
         }
@@ -40,8 +40,8 @@ class Menu {
         $player = $trans->getPlayer();
         $item = $trans->getItemClicked();
         if($name = $item->getNamedTag()->getString("home")){
-            if(DataManager::getInstance()->exists($player, $name)){
-                $player->teleport(DataManager::getInstance()->exactCoordinates($player, $name));
+            if(HomeFactory::getInstance()->getHome($player, $name) !== null){
+                $player->teleport(HomeFactory::getInstance()->getHome($player, $name)->getPosition());
                 $player->sendMessage(HomeSystem::PREFIX . "§aYou was teleported to your home succesfully");
                 
                 return $trans->discard();

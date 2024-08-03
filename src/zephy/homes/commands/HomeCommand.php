@@ -30,10 +30,12 @@ class HomeCommand extends Command {
         switch($args[0]){
 
             case "create":
+            if(HomeFactory::getInstance()->existsPlayer($sender)) {
                  if(count(HomeFactory::getInstance()->getHomes($sender)) >= 26){
                 $sender->sendMessage(HomeSystem::PREFIX . "§4You have the maximum number of houses remove some");
                 return;
                 }
+            } 
                 $sender->sendForm(new HomeCreator());
                 return;
             break;

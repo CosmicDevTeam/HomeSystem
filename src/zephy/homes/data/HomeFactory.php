@@ -11,6 +11,9 @@ use zephy\homes\util\Utils;
 class HomeFactory {
     use SingletonTrait;
     private array $homes = [];
+    public function existsPlayer(Player $player): bool {
+        return isset($this->homes[$player->getName()]);
+    } 
     public function getHomes(Player $player): array {
         return $this->homes[$player->getName()];
     }

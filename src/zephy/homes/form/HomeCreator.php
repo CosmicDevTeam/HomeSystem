@@ -17,7 +17,7 @@ class HomeCreator extends CustomForm {
             return;
         }
 
-        if(HomeFactory::getInstance()->getHome($player, $data[0]) === null){
+        if(HomeFactory::getInstance()->getHome($player, $data[0]) !== null){
             $player->sendMessage(HomeSystem::PREFIX . "This home already exists");
             return;
         }

@@ -34,11 +34,10 @@ class Home {
 
     public function data(): array {
         return [
-            $this->getHomeName(),
-            [
+                
                 "position" => Utils::getInstance()->positionToString($this->getPosition()),
                 "item" => $this->getDecorativeItem()
-            ]
+            
             ];
     }
 }

@@ -17,8 +17,14 @@ class HomeFactory {
     public function getHomes(Player $player): array {
         return $this->homes[$player->getName()];
     }
-    public function getHome(Player $player, string $home): ?Home{
-        return $this->homes[$player->getName()][$home] ?? null;
+    public function getHome(string|Player $player, string $home): ?Home{
+        if($player instanceof Player) {
+            if (!isset($this->homes[$player->getName()])) return null;
+
+            return $this->homes[$player->getName()][$home] ?? null;
+        } else {
+            return $this->homes[$player][$home] ?? null;
+        } 
     }
     public function addHome(Player $player, string $home): void{
         $this->homes[$player->getName()][$home] = new Home($home);
@@ -27,21 +33,32 @@ class HomeFactory {
         unset($this->homes[$player->getName()][$home]);
     }
     public function save(): void {
-        $config = new Config(HomeSystem::getInstance()->getDataFolder() . "homes.json");
-        foreach($this->homes as $name => $homes){
-            $config->set($name, $homes->data());
+          @mkdir(HomeSystem::getInstance()->getDataFolder() . 'players');
+        
+        foreach ($this->homes as $name => $homes) {
+            foreach($homes as $home) {
+            $config = new Config(HomeSystem::getInstance()->getDataFolder() . 'players/' . $name . '.yml', Config::YAML);
+            $config->set(
+               $home->getHomeName(), 
+               $home->data());
             $config->save();
-        }
+            } 
+            
+    } 
     }
-
     public function load(): void {
-        $config = new Config(HomeSystem::getInstance()->getDataFolder() . "homes.json");
-        foreach($config->getAll(true) as $players){
-            $data = $config->get($players);
-            $this->homes[$data][$data[0]] = new Home($data[0]);
-            $home = $this->getHome($data, $data[0]);
-            $home->setDecorativeItem($data["item"]);
-            $home->setPosition(Utils::getInstance()->stringToPosition($data["position"]));
-        }
-    }
+        $files = glob(HomeSystem::getInstance()->getDataFolder() . 'players/*.yml');
+        
+        foreach ($files as $file) {
+            $name = basename($file, '.yml');
+            $config = new Config(HomeSystem::getInstance()->getDataFolder() . 'players/' . $name . '.yml', Config::YAML);
+            foreach($config->getAll() as $home => $data) {
+
+               $this->addHome($name, $home);
+               $homeEdit = $this->getHome($name, $home);
+               $homeEdit->setDecorativeItem($data["item"]);
+               $homeEdit->setPosition(Utils::getInstance()->stringToPosition($data["position"]));
+           } 
+     } 
+}
 }

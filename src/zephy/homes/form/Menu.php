@@ -25,11 +25,11 @@ class Menu {
         $menu = InvMenu::create(InvMenuTypeIds::TYPE_CHEST);
         $menu->setName("§gMy Homes");
         foreach(HomeFactory::getInstance()->getHomes($player) as $home){
-            $itemname = HomeFactory::getInstance()->getHome($player, $home)->getDecorativeItem();
+            $itemname = $home->getDecorativeItem();
             $item = StringToItemParser::getInstance()->parse($itemname);
-            $item->setCustomName($home);
-            $item->setLore(["§aWorld : " . HomeFactory::getInstance()->getHome($player, $home)->getPosition()->getWorld()->getFolderName()]);
-            $item->setNamedTag($item->getNamedTag()->setString("home", $home));
+            $item->setCustomName($home->getHomeName());
+            $item->setLore(["§aWorld : " . $home->getPosition()->getWorld()->getFolderName()]);
+            $item->setNamedTag($item->getNamedTag()->setString("home", $home->getHomeName()));
             $menu->getInventory()->addItem($item);
         }
         $menu->setListener(fn(InvMenuTransaction $trans): InvMenuTransactionResult => self::transaction($trans));

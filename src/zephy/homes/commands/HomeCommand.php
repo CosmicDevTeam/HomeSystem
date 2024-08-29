@@ -16,7 +16,7 @@ class HomeCommand extends Command {
     public function __construct()
     {
         parent::__construct("home", "", null, ["hs", "homesystem"]);
-        $this->setPermission("home.default");
+        $this->setPermission("homesystem.default");
     }
     public function execute(CommandSender $sender, string $commandLabel, array $args)
     {

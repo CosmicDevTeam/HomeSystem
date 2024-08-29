@@ -11,8 +11,10 @@ use zephy\homes\form\HomeCreator;
 use zephy\homes\form\ItemsSelector;
 use pocketmine\command\CommandSender;
 use zephy\homes\data\HomeFactory;
+use pocketmine\plugin\PluginOwned;
+use pocketmine\plugin\Plugin;
 
-class HomeCommand extends Command {
+class HomeCommand extends Command implements PluginOwned{
     public function __construct()
     {
         parent::__construct("home", "", null, ["hs", "homesystem"]);
@@ -70,4 +72,7 @@ class HomeCommand extends Command {
 
         }
     }
+    public function getPluginOwned() : Plugin{
+        return HomeSystem::getInstance();
+    } 
 }

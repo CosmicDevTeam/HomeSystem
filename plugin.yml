@@ -6,5 +6,5 @@ version: 1.0.0
 
 
 permissions:
-   home.default:
+   homesystem.default:
       default: true
